@@ -35,14 +35,6 @@ With this approach we can drop off `Mocks` which allows better testing of intera
 
 This module contains Spring application and `adapters` implementing all necessary domain `ports`.
 
-### API
-
-Api is provided via GraphQL. It is available under: 
-
-http://localhost:8080/graphiql?path=/graphql
-
-Schema definition is under path: `app/src/main/resources/graphql`
-
 ### Tests 
 
 Test are written in Junit5 with GraphQlTester. They can be executed in two profiles:
@@ -65,3 +57,75 @@ Application can be run with two different basic profiles (configurations):
 In `postgres` profile it requires running Postgres DB up. It can be deployed with `docker/postgres/docker-compose.yml`.
 Just execute `docker-compose up` in mentioned directory. 
 
+### API
+
+Api is provided via GraphQL. It is available under:
+
+http://localhost:8080/graphiql?path=/graphql
+
+Schema definition is under path: `app/src/main/resources/graphql`
+
+Examples:
+
+**Find books**
+```
+query{
+  books(searchPhrase:""){
+    isbn,
+    title,
+    description,
+    author {
+      id,
+      firstName,
+      lastName
+    },
+    categories{
+      name
+    }
+  }
+}
+```
+
+**Create book**
+
+```
+mutation CreateBook{
+    addBook(isbn:"i-1",
+        title: "Fox in Socks",
+        description: "Bla bla bla",
+        authorId:"7c0be286-55fd-483b-a492-895b41266efc",
+        categoryIds :["c7f90c44-8587-4bf1-84bd-cc944548fe18"]) {
+        isbn
+    }
+}
+```
+
+**Delete book**
+
+```
+mutation DeleteBook{
+    deleteBook(isbn:"5dbc37ad-7f5b-47e9-bf61-6d8f494398f4")
+}
+```
+
+
+**Find authors**
+```
+query{
+  authors(searchPhrase:""){
+    id
+    firstName
+    lastName
+  }
+}
+```
+
+**Find categories**
+```
+query{
+  categories(searchPhrase:""){
+    id
+    name   
+  }
+}
+```
