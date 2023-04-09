@@ -13,7 +13,7 @@ public interface DomainObjectRepositoryPort<ID, E extends DomainObject, S extend
 
     List<E> getAll();
 
-    void save(E object);
+    E save(E object);
 
     void delete(ID id);
 

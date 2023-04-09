@@ -1,1 +1,8 @@
+spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:db/liquibase-changelog.xml
 
+  graphql:
+    graphiql:
+      enabled: true

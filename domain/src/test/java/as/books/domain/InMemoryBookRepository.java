@@ -6,7 +6,6 @@ import as.books.domain.request.BookSearchRequest;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 
 public class InMemoryBookRepository extends AbstractInMemoryRepository<String, Book, BookSearchRequest> implements
@@ -16,13 +15,13 @@ public class InMemoryBookRepository extends AbstractInMemoryRepository<String, B
     public static final Book GAME_OF_THRONES = new Book("ISBN-1",
                                                         "Game of thrones",
                                                         "Book with a lot of dragons",
-                                                        InMemoryAuthorRepository.MARTIN.id(),
-                                                        Set.of(InMemoryBookCategoryRepository.FANTASY.uuid()));
+                                                        InMemoryAuthorRepository.MARTIN,
+                                                        List.of(InMemoryBookCategoryRepository.FANTASY));
     public static final Book HARRY_POTTER = new Book("ISBN-2",
                                                      "Harry potter",
                                                      "Book with a lot of magic",
-                                                     InMemoryAuthorRepository.ROWLING.id(),
-                                                     Set.of(InMemoryBookCategoryRepository.FANTASY.uuid()));
+                                                     InMemoryAuthorRepository.ROWLING,
+                                                     List.of(InMemoryBookCategoryRepository.FANTASY));
 
     public static InMemoryBookRepository STUB = new InMemoryBookRepository(List.of(GAME_OF_THRONES, HARRY_POTTER));
 

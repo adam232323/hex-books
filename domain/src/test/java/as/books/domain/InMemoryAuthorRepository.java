@@ -14,7 +14,7 @@ public class InMemoryAuthorRepository extends AbstractInMemoryRepository<UUID, A
 
     public static final Author WILLIAM = Author.of("William", "Shakespeare");
     public static final Author ROWLING = Author.of("J.K", "Rowling");
-    public static final Author MARTIN = Author.of("George", "Marting");
+    public static final Author MARTIN = Author.of("George", "Martin");
 
     public static InMemoryAuthorRepository STUB = new InMemoryAuthorRepository(List.of(WILLIAM, ROWLING, MARTIN));
 

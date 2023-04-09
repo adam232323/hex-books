@@ -1,0 +1,29 @@
+query{
+    books(searchPhrase:""){
+        isbn,
+        title,
+        description,
+        author {
+            id,
+            firstName,
+            lastName
+        },
+        categories{
+            name
+        }
+    }
+}
+
+mutation CreateBook{
+    addBook(isbn:"i-1",
+        title: "Fox in Socks",
+        description: "Bla bla bla",
+        authorId:"7c0be286-55fd-483b-a492-895b41266efc",
+        categoryIds :["c7f90c44-8587-4bf1-84bd-cc944548fe18"]) {
+        isbn
+    }
+}
+
+mutation DeleteBook{
+    deleteBook(isbn:"i-1")
+}

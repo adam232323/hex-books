@@ -1,0 +1,12 @@
+services:
+  db:
+    image: postgres:15.2
+    restart: always
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: hex_books
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres

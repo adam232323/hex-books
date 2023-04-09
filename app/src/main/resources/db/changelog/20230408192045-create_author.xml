@@ -1,0 +1,27 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+                   logicalFilePath="20230408192045-create_author.xml">
+
+    <changeSet author="auto_generated" id="20230408192045-1">
+        <validCheckSum>ANY</validCheckSum>
+
+        <createTable tableName="authors">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <sql>
+            INSERT INTO authors VALUES('2ee03662-3caf-4266-adb5-170fdc4f5604', 'George', 'Martin');
+            INSERT INTO authors VALUES('b65f9fbf-b95c-40e4-a5f2-d6a4a9a185e1', 'J.K', 'Rowling');
+            INSERT INTO authors VALUES('7c0be286-55fd-483b-a492-895b41266efc', 'William', 'Shakespeare');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

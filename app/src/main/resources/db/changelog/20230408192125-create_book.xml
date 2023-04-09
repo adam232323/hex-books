@@ -1,0 +1,65 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+                   logicalFilePath="20230408192125-create_book.xml">
+
+    <changeSet author="auto_generated" id="20230408192125-1">
+        <validCheckSum>ANY</validCheckSum>
+
+        <createTable tableName="book_categories">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <sql>
+            INSERT INTO book_categories
+            VALUES ('c7f90c44-8587-4bf1-84bd-cc944548fe18', 'Thriller');
+            INSERT INTO book_categories
+            VALUES ('5caab25f-5825-4052-a7c3-32fc587179c3', 'Horror');
+            INSERT INTO book_categories
+            VALUES ('b508ad66-a077-4e9b-9ee1-03a613111396', 'Fantasy');
+        </sql>
+    </changeSet>
+
+    <changeSet author="auto_generated" id="20230408192125-2">
+        <validCheckSum>ANY</validCheckSum>
+
+        <createTable tableName="books">
+            <column name="isbn" type="VARCHAR(100)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_ids" type="json">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="books" baseColumnNames="author_id" constraintName="books_author_fk"
+                                 referencedTableName="authors"
+                                 referencedColumnNames="id"/>
+
+        <sql>
+            INSERT INTO books
+            VALUES ('5dbc37ad-7f5b-47e9-bf61-6d8f494398f4', 'Harry Potter', 'Some magic',
+                    'b65f9fbf-b95c-40e4-a5f2-d6a4a9a185e1',
+                    '["b508ad66-a077-4e9b-9ee1-03a613111396"]');
+            INSERT INTO books
+            VALUES ('22f499dc-b625-4f17-9abe-5f438922a5a3', 'Game of Thrones', 'A lot of dragons',
+                    '2ee03662-3caf-4266-adb5-170fdc4f5604',
+                    '["b508ad66-a077-4e9b-9ee1-03a613111396"]');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

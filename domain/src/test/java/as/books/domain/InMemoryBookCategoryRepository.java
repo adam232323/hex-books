@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
+import static as.books.domain.model.BookCategory.COMPARATOR;
+
 public class InMemoryBookCategoryRepository extends AbstractInMemoryRepository<UUID, BookCategory,
         BookCategorySearchRequest> implements
         BookCategoryRepositoryPort {
-    private static final Comparator<BookCategory> COMPARATOR = Comparator.comparing(BookCategory::name);
 
     public static final BookCategory THRILLER = BookCategory.of("Thriller");
     public static final BookCategory HORROR = BookCategory.of("Horror");
@@ -33,7 +34,7 @@ public class InMemoryBookCategoryRepository extends AbstractInMemoryRepository<U
 
     @Override
     protected Function<BookCategory, UUID> idFieldProvider() {
-        return BookCategory::uuid;
+        return BookCategory::id;
     }
 
     @Override

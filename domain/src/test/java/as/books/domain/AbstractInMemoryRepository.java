@@ -51,9 +51,11 @@ abstract class AbstractInMemoryRepository<ID, E extends DomainObject, S extends 
     }
 
     @Override
-    public void save(final E object) {
+    public E save(final E object) {
         Objects.requireNonNull(object);
         objectsMap.put(idFieldProvider().apply(object), object);
+
+        return object;
     }
 
     @Override

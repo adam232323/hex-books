@@ -24,3 +24,7 @@ hs_err_pid*
 
 .idea
 **/*.iml
+
+**/application-default.yml
+
+docker/postgres/data/*

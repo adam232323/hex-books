@@ -3,6 +3,7 @@ package as.books.domain.in
 import as.books.domain.InMemoryAuthorRepository
 import as.books.domain.InMemoryBookCategoryRepository
 import as.books.domain.InMemoryBookRepository
+import as.books.domain.exception.BookWithGivenIsbnExistsException
 import as.books.domain.exception.DomainObjectNotFoundException
 import as.books.domain.model.Author
 import as.books.domain.request.BookAddRequest
@@ -37,12 +38,27 @@ class BookServiceSpec extends Specification {
         books[0] == HARRY_POTTER
     }
 
+    def "should fail when book with same isbn is created"() {
+        given:
+        def repository = new InMemoryBookRepository([])
+        def service = ServiceFactory.createBookService(repository, InMemoryAuthorRepository.STUB, InMemoryBookCategoryRepository.STUB)
+        def bookAddRequest = new BookAddRequest("ISBN-222", "Captain Nemo", "About see", InMemoryAuthorRepository.WILLIAM.id(), Set.of(InMemoryBookCategoryRepository.FANTASY.id()))
+
+        when:
+        service.add(bookAddRequest)
+        service.add(bookAddRequest)
+
+        then:
+        BookWithGivenIsbnExistsException e = thrown()
+        e.message == "Book with given isbn exists: " + bookAddRequest.isbn()
+    }
+
     def "should fail author validation when adding new book"() {
         given:
         def repository = new InMemoryBookRepository([])
         def authorId = UUID.randomUUID()
         def service = ServiceFactory.createBookService(repository, new InMemoryAuthorRepository([]), InMemoryBookCategoryRepository.STUB)
-        def bookAddRequest = new BookAddRequest("ISBN-222", "Captain Nemo", "About see", authorId, Set.of(InMemoryBookCategoryRepository.FANTASY.uuid()))
+        def bookAddRequest = new BookAddRequest("ISBN-222", "Captain Nemo", "About see", authorId, Set.of(InMemoryBookCategoryRepository.FANTASY.id()))
 
         when:
         service.add(bookAddRequest)
@@ -75,7 +91,7 @@ class BookServiceSpec extends Specification {
         def julesVerne = Author.of("Jules", "Verne")
         def authorRepository = new InMemoryAuthorRepository([julesVerne])
         def service = ServiceFactory.createBookService(repository, authorRepository, InMemoryBookCategoryRepository.STUB)
-        def bookAddRequest = new BookAddRequest("ISBN-222", "Captain Nemo", "About see", julesVerne.id(), Set.of(InMemoryBookCategoryRepository.FANTASY.uuid()))
+        def bookAddRequest = new BookAddRequest("ISBN-222", "Captain Nemo", "About see", julesVerne.id(), Set.of(InMemoryBookCategoryRepository.FANTASY.id()))
 
         when:
         service.add(bookAddRequest)
@@ -89,7 +105,8 @@ class BookServiceSpec extends Specification {
         book.isbn() == bookAddRequest.isbn()
         book.title() == bookAddRequest.title()
         book.description() == bookAddRequest.description()
-        book.authorId() == bookAddRequest.authorId()
-        book.categoryIds() == bookAddRequest.categoryIds()
+        book.author().id() == bookAddRequest.authorId()
+        book.categories().size() == 1
+        book.categories()[0] == InMemoryBookCategoryRepository.FANTASY
     }
 }

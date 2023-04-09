@@ -1,7 +1,6 @@
 package as.books.domain.model;
 
-import java.util.Set;
-import java.util.UUID;
+import java.util.List;
 
-public record Book(String isbn, String title, String description, UUID authorId, Set<UUID> categoryIds) implements
-        DomainObject {}
+public record Book(String isbn, String title, String description, Author author,
+                   List<BookCategory> categories) implements DomainObject {}

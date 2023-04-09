@@ -1,0 +1,31 @@
+type Query {
+    authors(searchPhrase: String): [Author]
+    bookCategories(searchPhrase: String): [BookCategory]
+    books(searchPhrase: String): [Book]
+}
+
+type Mutation {
+    addAuthor(firstName: String, lastName: String) :Author
+    addBook(isbn: String, title: String, description: String, authorId: ID, categoryIds: [ID]): Book
+    deleteBook(isbn: String) : ID
+}
+
+type Author {
+    id: ID
+    firstName: String
+    lastName: String
+}
+
+type BookCategory {
+    id: ID
+    name: String
+}
+
+type Book {
+    isbn: String
+    title: String
+    description: String
+    author: Author
+    categories: [BookCategory]
+}
+
